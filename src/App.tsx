@@ -10,6 +10,8 @@ import { MeterReadingModal } from './components/meter/MeterReadingModal';
 import { MeterGuideModal } from './components/meter/MeterGuideModal';
 import { ApplianceModal } from './components/appliances/ApplianceModal';
 import { SetupBaseDataModal } from './components/dashboard/SetupBaseDataModal';
+import { SplashScreen } from './components/onboarding/SplashScreen';
+import { WelcomeScreen } from './components/onboarding/WelcomeScreen';
 import { storageService, DEFAULT_SETTINGS } from './services/storage';
 import {
   Appliance,
@@ -19,7 +21,11 @@ import {
 } from './types';
 import { calculateBillingStats, generateDynamicInsights, sortReadings } from './utils/calculations';
 
-const MainApp: React.FC = () => {
+interface MainAppProps {
+  initialOpenSetup?: boolean;
+}
+
+const MainApp: React.FC<MainAppProps> = ({ initialOpenSetup = false }) => {
   const { showToast } = useToast();
 
   // Primary persistent state
@@ -32,6 +38,7 @@ const MainApp: React.FC = () => {
 
   // Modal states
   const [isSetupModalOpen, setIsSetupModalOpen] = useState<boolean>(() => {
+    if (initialOpenSetup) return true;
     const savedSettings = storageService.loadSettings();
     const savedReadings = storageService.loadReadings();
     return !savedSettings.isOnboarded && savedReadings.length === 0 && savedSettings.electricityRate === 0;
@@ -362,9 +369,38 @@ const MainApp: React.FC = () => {
 };
 
 export default function App() {
+  const [appStage, setAppStage] = useState<'splash' | 'welcome' | 'main'>('splash');
+  const [shouldAutoOpenSetup, setShouldAutoOpenSetup] = useState(false);
+
+  const handleSplashFinish = () => {
+    const isCompleted = storageService.isOnboardingCompleted();
+    if (isCompleted) {
+      setAppStage('main');
+    } else {
+      setAppStage('welcome');
+    }
+  };
+
+  const handleGetStarted = () => {
+    storageService.setOnboardingCompleted(true);
+    setShouldAutoOpenSetup(true);
+    setAppStage('main');
+  };
+
   return (
     <ToastProvider>
-      <MainApp />
+      {appStage === 'splash' && (
+        <SplashScreen
+          onFinish={handleSplashFinish}
+          durationMs={storageService.isOnboardingCompleted() ? 800 : 950}
+        />
+      )}
+      {appStage === 'welcome' && (
+        <WelcomeScreen onGetStarted={handleGetStarted} />
+      )}
+      {appStage === 'main' && (
+        <MainApp initialOpenSetup={shouldAutoOpenSetup} />
+      )}
     </ToastProvider>
   );
 }

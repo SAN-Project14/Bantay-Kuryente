@@ -10,6 +10,7 @@ const STORAGE_KEYS = {
   SETTINGS: 'bantay_kuryente_settings_v1',
   READINGS: 'bantay_kuryente_readings_v1',
   APPLIANCES: 'bantay_kuryente_appliances_v1',
+  ONBOARDING_COMPLETED: 'bantayKuryente.onboardingCompleted',
 };
 
 export const DEFAULT_SETTINGS: UserSettings = {
@@ -322,12 +323,40 @@ export const storageService = {
     }
   },
 
+  // Onboarding status
+  isOnboardingCompleted(): boolean {
+    try {
+      const val = localStorage.getItem(STORAGE_KEYS.ONBOARDING_COMPLETED);
+      if (val !== null) {
+        return val === 'true';
+      }
+      // If user already has configured settings or saved readings, treat as onboarded
+      const savedSettings = this.loadSettings();
+      const savedReadings = this.loadReadings();
+      if (savedSettings.isOnboarded || savedSettings.electricityRate > 0 || savedReadings.length > 0) {
+        return true;
+      }
+    } catch (e) {
+      console.error('Error checking onboarding status', e);
+    }
+    return false;
+  },
+
+  setOnboardingCompleted(completed: boolean): void {
+    try {
+      localStorage.setItem(STORAGE_KEYS.ONBOARDING_COMPLETED, completed ? 'true' : 'false');
+    } catch (e) {
+      console.error('Error saving onboarding status', e);
+    }
+  },
+
   // Reset
   clearAllData(): void {
     try {
       localStorage.removeItem(STORAGE_KEYS.SETTINGS);
       localStorage.removeItem(STORAGE_KEYS.READINGS);
       localStorage.removeItem(STORAGE_KEYS.APPLIANCES);
+      localStorage.removeItem(STORAGE_KEYS.ONBOARDING_COMPLETED);
     } catch (e) {
       console.error('Error clearing data', e);
     }
