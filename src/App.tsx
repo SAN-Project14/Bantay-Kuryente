@@ -44,6 +44,20 @@ const MainApp: React.FC = () => {
   const [isApplianceModalOpen, setIsApplianceModalOpen] = useState(false);
   const [editingAppliance, setEditingAppliance] = useState<Appliance | null>(null);
 
+  // Handle PWA App Shortcuts (e.g. ?action=record)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('action') === 'record') {
+        setIsMeterModalOpen(true);
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, '', newUrl);
+      }
+    } catch {
+      // Ignore if window.location is unavailable
+    }
+  }, []);
+
   // Deletion confirm states
   const [deletingReading, setDeletingReading] = useState<MeterReading | null>(null);
   const [deletingAppliance, setDeletingAppliance] = useState<Appliance | null>(null);
