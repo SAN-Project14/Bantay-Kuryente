@@ -18,17 +18,26 @@ export default defineConfig(() => {
           'apple-touch-icon.png',
           'pwa-192x192.png',
           'pwa-512x512.png',
+          'pwa-maskable-192x192.png',
+          'pwa-maskable-512x512.png',
+          'screenshot-home.png',
+          'screenshot-meter.png',
+          'screenshot-appliances.png',
+          'screenshot-desktop.png',
+          'offline.html',
         ],
         manifest: {
-          name: 'Bantay-Kuryente',
+          id: '/bantay-kuryente',
+          name: 'Bantay Kuryente — Electricity Bill & Meter Tracker',
           short_name: 'Bantay Kuryente',
-          description: 'Track household electricity consumption and estimate your electricity bill.',
+          description: 'Track your electricity meter, estimate your electricity bill, and monitor household power consumption.',
           lang: 'en',
           dir: 'ltr',
+          categories: ['utilities', 'productivity', 'finance'],
           theme_color: '#F8FAFC',
           background_color: '#F8FAFC',
           display: 'standalone',
-          display_override: ['standalone'],
+          display_override: ['standalone', 'window-controls-overlay'],
           orientation: 'portrait-primary',
           start_url: '/',
           scope: '/',
@@ -58,6 +67,36 @@ export default defineConfig(() => {
               purpose: 'maskable',
             },
           ],
+          screenshots: [
+            {
+              src: 'screenshot-home.png',
+              sizes: '1080x1920',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'Bantay Kuryente Home Dashboard & Electricity Bill Forecast',
+            },
+            {
+              src: 'screenshot-meter.png',
+              sizes: '1080x1920',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'Electric Meter Dial Tracker and Historical Log',
+            },
+            {
+              src: 'screenshot-appliances.png',
+              sizes: '1080x1920',
+              type: 'image/png',
+              form_factor: 'narrow',
+              label: 'Appliance Energy Usage & Cost Simulator',
+            },
+            {
+              src: 'screenshot-desktop.png',
+              sizes: '1920x1080',
+              type: 'image/png',
+              form_factor: 'wide',
+              label: 'Bantay Kuryente Wide Desktop & Tablet Dashboard',
+            },
+          ],
           shortcuts: [
             {
               name: 'Dashboard',
@@ -76,10 +115,51 @@ export default defineConfig(() => {
           ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2,webmanifest}'],
           cleanupOutdatedCaches: true,
           clientsClaim: true,
           skipWaiting: true,
+          navigateFallback: '/index.html',
+          runtimeCaching: [
+            {
+              urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'google-fonts-stylesheets',
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+              handler: 'CacheFirst',
+              options: {
+                cacheName: 'google-fonts-webfonts',
+                expiration: {
+                  maxEntries: 30,
+                  maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+            {
+              urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp|ico)$/i,
+              handler: 'StaleWhileRevalidate',
+              options: {
+                cacheName: 'image-cache',
+                expiration: {
+                  maxEntries: 60,
+                  maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days
+                },
+                cacheableResponse: {
+                  statuses: [0, 200],
+                },
+              },
+            },
+          ],
         },
       }),
     ],

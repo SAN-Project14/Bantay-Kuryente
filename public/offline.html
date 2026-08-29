@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Offline — Bantay Kuryente</title>
+    <meta name="theme-color" content="#F8FAFC" />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        background-color: #F8FAFC;
+        color: #0F172A;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: 24px;
+        text-align: center;
+      }
+      .card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 24px;
+        padding: 36px 24px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+      }
+      .icon-box {
+        width: 72px;
+        height: 72px;
+        background-color: #0F172A;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+      }
+      .icon-box svg {
+        width: 36px;
+        height: 36px;
+      }
+      h1 {
+        font-size: 22px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+        color: #0F172A;
+      }
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: #64748B;
+        margin-bottom: 24px;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: #FEF3C7;
+        color: #92400E;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 9999px;
+        margin-bottom: 20px;
+      }
+      .btn {
+        display: inline-block;
+        width: 100%;
+        background-color: #0F172A;
+        color: #FFFFFF;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 14px;
+        border-radius: 16px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.15s ease;
+      }
+      .btn:hover {
+        background-color: #1E293B;
+      }
+      .subtext {
+        font-size: 12px;
+        color: #94A3B8;
+        margin-top: 14px;
+        margin-bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="icon-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" fill="#F59E0B" stroke="#D97706" stroke-width="0.5" />
+        </svg>
+      </div>
+
+      <div class="badge">
+        <span>⚡ Offline Mode Active</span>
+      </div>
+
+      <h1>Device is Offline</h1>
+      <p>
+        Bantay Kuryente runs offline-first. Your saved meter readings, rate settings, and appliance logs remain safely stored on this device.
+      </p>
+
+      <button class="btn" onclick="window.location.href='/'">
+        Return to Dashboard
+      </button>
+
+      <p class="subtext">
+        All calculations continue to work with local data.
+      </p>
+    </div>
+  </body>
+</html>

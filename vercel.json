@@ -21,11 +21,20 @@
           "value": "public, max-age=0, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/(screenshot-.*|pwa-.*|apple-.*|favicon.*|icon-.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, immutable"
+        }
+      ]
     }
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/|favicon|pwa-|apple-|icon-|sw.js|registerSW.js|manifest.webmanifest).*)",
+      "source": "/((?!assets/|favicon|pwa-|apple-|icon-|screenshot-|offline\\.html|sw\\.js|registerSW\\.js|manifest\\.webmanifest).*)",
       "destination": "/index.html"
     }
   ]
