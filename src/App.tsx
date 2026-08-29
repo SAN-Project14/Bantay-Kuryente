@@ -392,7 +392,7 @@ export default function App() {
       {appStage === 'splash' && (
         <SplashScreen
           onFinish={handleSplashFinish}
-          durationMs={storageService.isOnboardingCompleted() ? 800 : 950}
+          isFirstLaunch={!storageService.isOnboardingCompleted()}
         />
       )}
       {appStage === 'welcome' && (
