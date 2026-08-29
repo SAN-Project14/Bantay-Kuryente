@@ -1,0 +1,6 @@
+{
+  "name": "Bantay Kuryente",
+  "description": "Know your electricity bill before it arrives. An offline-first electricity consumption and bill tracking application for Filipino households.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
