@@ -14,7 +14,7 @@
       ]
     },
     {
-      "source": "/(registerSW.js|manifest.webmanifest)",
+      "source": "/(registerSW.js|manifest.webmanifest|workbox-.*\\.js)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -34,7 +34,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!assets/|favicon|pwa-|apple-|icon-|screenshot-|offline\\.html|sw\\.js|registerSW\\.js|manifest\\.webmanifest).*)",
+      "source": "/((?!assets/|favicon|pwa-|apple-|icon-|screenshot-|offline\\.html|sw\\.js|registerSW\\.js|manifest\\.webmanifest|workbox-.*).*)",
       "destination": "/index.html"
     }
   ]
